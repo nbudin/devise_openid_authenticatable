@@ -46,6 +46,21 @@ You'll also need to set up the database schema for this:
 and, optionally, indexes:
 
     add_index :users, :identity_url, :unique => true
+    
+In addition, you'll need to modify sessions/new.html.erb (or the appropriate scoped view if you're
+using those).  You need to add a field for identity_url, and remove username and password if you
+aren't using database_authenticatable:
+
+    <% form_for resource_name, resource, :url => session_path(resource_name) do |f| -%>
+      <p><%= f.label :identity_url %></p>
+      <p><%= f.text_field :identity_url %></p>
+
+      <% if devise_mapping.rememberable? -%>
+        <p><%= f.check_box :remember_me %> <%= f.label :remember_me %></p>
+      <% end -%>
+
+      <p><%= f.submit "Sign in" %></p>
+    <% end -%>
 
 Finally, you'll need to add the following in your Rails configuration:
 
