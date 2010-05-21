@@ -15,6 +15,16 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = [
     "README.md"
   ]
+  s.files = [
+    "README.md",
+     "Rakefile",
+     "VERSION",
+     "devise_openid_authenticatable.gemspec",
+     "lib/devise_openid_authenticatable.rb",
+     "lib/devise_openid_authenticatable/schema.rb",
+     "lib/devise_openid_authenticatable/strategy.rb",
+     "rails/init.rb"
+  ]
   s.homepage = %q{http://github.com/nbudin/devise_cas_authenticatable}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
