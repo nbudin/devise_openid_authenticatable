@@ -21,6 +21,8 @@ Gem::Specification.new do |s|
      "VERSION",
      "devise_openid_authenticatable.gemspec",
      "lib/devise_openid_authenticatable.rb",
+     "lib/devise_openid_authenticatable/model.rb",
+     "lib/devise_openid_authenticatable/routes.rb",
      "lib/devise_openid_authenticatable/schema.rb",
      "lib/devise_openid_authenticatable/strategy.rb",
      "rails/init.rb"
