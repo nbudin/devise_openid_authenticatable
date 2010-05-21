@@ -16,7 +16,8 @@ Gem::Specification.new do |s|
     "README.md"
   ]
   s.files = [
-    "README.md",
+    ".gitignore",
+     "README.md",
      "Rakefile",
      "VERSION",
      "devise_openid_authenticatable.gemspec",
@@ -38,14 +39,14 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<devise>, ["~> 1.0.6"])
+      s.add_runtime_dependency(%q<devise>, [">= 1.0.6"])
       s.add_runtime_dependency(%q<rack-openid>, ["~> 1.0.3"])
     else
-      s.add_dependency(%q<devise>, ["~> 1.0.6"])
+      s.add_dependency(%q<devise>, [">= 1.0.6"])
       s.add_dependency(%q<rack-openid>, ["~> 1.0.3"])
     end
   else
-    s.add_dependency(%q<devise>, ["~> 1.0.6"])
+    s.add_dependency(%q<devise>, [">= 1.0.6"])
     s.add_dependency(%q<rack-openid>, ["~> 1.0.3"])
   end
 end
