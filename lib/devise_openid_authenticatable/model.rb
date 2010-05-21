@@ -1,6 +1,6 @@
 module Devise
   module Models
-    class OpenidAuthenticatable
+    module OpenidAuthenticatable
     end
   end
 end
