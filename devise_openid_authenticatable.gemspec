@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{devise_openid_authenticatable}
-  s.version = "1.0.0.alpha1"
+  s.version = "1.0.0.alpha2"
 
   s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nat Budin"]
-  s.date = %q{2010-05-21}
+  s.date = %q{2010-05-24}
   s.description = %q{OpenID authentication module for Devise using Rack::OpenID}
   s.email = %q{natbudin@gmail.com}
   s.extra_rdoc_files = [
