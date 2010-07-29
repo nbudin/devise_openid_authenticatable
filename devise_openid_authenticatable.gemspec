@@ -28,7 +28,7 @@ Gem::Specification.new do |s|
      "lib/devise_openid_authenticatable/strategy.rb",
      "rails/init.rb"
   ]
-  s.homepage = %q{http://github.com/nbudin/devise_cas_authenticatable}
+  s.homepage = %q{http://github.com/nbudin/devise_openid_authenticatable}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}

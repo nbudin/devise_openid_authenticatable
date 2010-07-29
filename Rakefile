@@ -30,7 +30,7 @@ begin
     gemspec.summary = "OpenID authentication module for Devise"
     gemspec.description = "OpenID authentication module for Devise using Rack::OpenID"
     gemspec.email = "natbudin@gmail.com"
-    gemspec.homepage = "http://github.com/nbudin/devise_cas_authenticatable"
+    gemspec.homepage = "http://github.com/nbudin/devise_openid_authenticatable"
     gemspec.authors = ["Nat Budin"]
     gemspec.add_runtime_dependency "devise", ">= 1.0.6"
     gemspec.add_runtime_dependency "rack-openid", ">= 1.0.3"
