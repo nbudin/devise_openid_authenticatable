@@ -83,8 +83,56 @@ to your user model class:
       end
     end
     
-Ideally I'd like to add support for using sreg attributes here as well, to populate other
-fields in the user table.
+SReg and AX Extensions
+----------------------
+
+As of version 1.0.0.alpha4, devise_openid_authenticatable now supports the SReg (simple registration) and AX
+(attribute exchange) extensions.  This allows OpenID providers to pass you additional user details, such as
+name, email address, gender, nickname, etc.
+
+To add SReg and AX support to your User model, you'll need to do two things: first, you need to specify what
+fields you'd like to request from OpenID providers.  Second, you need to provide a method for processing
+these fields during authentication.
+
+To specify which fields to request, you can implement one (or both) of two class methods: 
+openid_required_fields and openid_optional_fields.  For example:
+
+    def self.openid_required_fields
+      ["fullname", "email", "http://axschema.org/namePerson", "http://axschema.org/contact/email"]
+    end
+    
+    def self.openid_optional_fields
+      ["gender", "http://axschema.org/person/gender"]
+    end
+
+Required fields should be used for fields without which your app can't operate properly.  Optional fields
+should be used for fields which are nice to have, but not necessary for your app.  Note that just because you
+specify a field as "required" doesn't necessarily mean that the OpenID provider has to give it to you (for 
+example, a provider might not have that field for its users).
+
+In the above example, we're specifying both SReg fields (fullname, email, and gender) and the equivalent
+AX fields (the ones that look like URLs).  A list of defined AX fields and their equivalent SReg fields can
+be found at [http://www.axschema.org/types](http://www.axschema.org/types).  It is highly recommended to 
+specify both AX and SReg fields, as both are implemented by different common OpenID providers.
+
+Once a successful OpenID response comes back, you still need to process the fields that the provider returned
+to your app.  To do that, implement an instance method called openid_fields=.  This method takes a hash that
+maps each returned field to a string value.  For example:
+
+    def openid_fields=(fields)
+      fields.each do |key, value|
+        case key.to_s
+        when "fullname", "http://axschema.org/namePerson"
+          self.name = value
+        when "email", "http://axschema.org/contact/email"
+          self.email = value
+        when "gender", "http://axschema.org/person/gender"
+          self.gender = value
+        else
+          logger.error "Unknown OpenID field: #{key}"
+        end
+      end
+    end
 
 See also
 --------
