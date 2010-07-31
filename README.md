@@ -64,7 +64,7 @@ aren't using database_authenticatable:
 
 Finally, you'll need to add the following in your Rails configuration:
 
-    config.middleware.use Rack::OpenID
+    config.middleware.insert_before(Warden::Manager, Rack::OpenID)
     
 which is the Rack middleware that actually does most of the heavy lifting here.
 
