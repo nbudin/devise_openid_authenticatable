@@ -66,11 +66,6 @@ module Devise
           end
         end
         
-        # Make sure everything is a string
-        openid_fields.each do |k, v|
-          openid_fields[k] = v.to_s
-        end
-        
         return openid_fields
       end
       

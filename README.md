@@ -121,6 +121,11 @@ maps each returned field to a string value.  For example:
 
     def openid_fields=(fields)
       fields.each do |key, value|
+        # Some AX providers can return multiple values per key
+        if value.is_a? Array
+          value = value.first
+        end
+      
         case key.to_s
         when "fullname", "http://axschema.org/namePerson"
           self.name = value

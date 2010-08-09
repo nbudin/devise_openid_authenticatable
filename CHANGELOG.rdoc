@@ -1,0 +1,21 @@
+== 1.0.0.alpha5
+
+* GH-5: Don't try to convert returned values to strings from AX providers
+  * This requires application developers to check whether the value is an array in openid_fields= method; see updated README for details.
+
+== 1.0.0.alpha4
+
+* GH-4: Support for SReg and AX extensions
+
+== 1.0.0.alpha3
+
+* Compatibility with Devise 1.1 and 1.1.1
+
+== 1.0.0.alpha2
+
+* Compatibility with pre-release versions of Devise 1.1
+* Design fix: find_by_identity_url needs to be a class method
+
+== 1.0.0.alpha1
+
+* Initial version, basically just a packaged-up version of my OpenID strategy for Devise
