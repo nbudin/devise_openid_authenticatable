@@ -62,11 +62,15 @@ aren't using database_authenticatable:
       <p><%= f.submit "Sign in" %></p>
     <% end -%>
 
-Finally, you'll need to add the following in your Rails configuration:
+Finally, you'll need to wire up Rack::OpenID in your Rails configuration.  In Rails 3, you can do:
 
     config.middleware.insert_before(Warden::Manager, Rack::OpenID)
-    
-which is the Rack middleware that actually does most of the heavy lifting here.
+
+In Rails 2.3, due to the way Devise gets loaded, you'll need to do this instead:
+
+    require 'warden/manager'
+    config.middleware.use "Warden::Manager"
+    config.middleware.insert_before "Warden::Manager", "Rack::OpenID"
 
 Automatically creating users
 ----------------------------
