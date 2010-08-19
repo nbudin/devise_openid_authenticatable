@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nat Budin"]
-  s.date = %q{2010-08-09}
+  s.date = %q{2010-08-19}
   s.description = %q{OpenID authentication module for Devise using Rack::OpenID}
   s.email = %q{natbudin@gmail.com}
   s.extra_rdoc_files = [
@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   s.files = [
     ".gitignore",
      "CHANGELOG.rdoc",
+     "Gemfile",
      "README.md",
      "Rakefile",
      "VERSION",
@@ -27,13 +28,58 @@ Gem::Specification.new do |s|
      "lib/devise_openid_authenticatable/routes.rb",
      "lib/devise_openid_authenticatable/schema.rb",
      "lib/devise_openid_authenticatable/strategy.rb",
-     "rails/init.rb"
+     "rails/init.rb",
+     "spec/model_spec.rb",
+     "spec/scenario/app/controllers/application_controller.rb",
+     "spec/scenario/app/controllers/home_controller.rb",
+     "spec/scenario/app/controllers/sessions_controller.rb",
+     "spec/scenario/app/models/user.rb",
+     "spec/scenario/app/views/sessions/new.html.erb",
+     "spec/scenario/config.ru",
+     "spec/scenario/config/application.rb",
+     "spec/scenario/config/boot.rb",
+     "spec/scenario/config/database.yml",
+     "spec/scenario/config/environment.rb",
+     "spec/scenario/config/environments/development.rb",
+     "spec/scenario/config/environments/test.rb",
+     "spec/scenario/config/initializers/backtrace_silencers.rb",
+     "spec/scenario/config/initializers/inflections.rb",
+     "spec/scenario/config/initializers/secret_token.rb",
+     "spec/scenario/config/routes.rb",
+     "spec/scenario/db/migrate/20100401102949_create_tables.rb",
+     "spec/scenario/db/schema.rb",
+     "spec/spec_helper.rb",
+     "spec/strategy_spec.rb",
+     "spec/support/migrations.rb",
+     "spec/support/patches.rb"
   ]
   s.homepage = %q{http://github.com/nbudin/devise_openid_authenticatable}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{OpenID authentication module for Devise}
+  s.test_files = [
+    "spec/model_spec.rb",
+     "spec/scenario/app/controllers/application_controller.rb",
+     "spec/scenario/app/controllers/home_controller.rb",
+     "spec/scenario/app/controllers/sessions_controller.rb",
+     "spec/scenario/app/models/user.rb",
+     "spec/scenario/config/application.rb",
+     "spec/scenario/config/boot.rb",
+     "spec/scenario/config/environment.rb",
+     "spec/scenario/config/environments/development.rb",
+     "spec/scenario/config/environments/test.rb",
+     "spec/scenario/config/initializers/backtrace_silencers.rb",
+     "spec/scenario/config/initializers/inflections.rb",
+     "spec/scenario/config/initializers/secret_token.rb",
+     "spec/scenario/config/routes.rb",
+     "spec/scenario/db/migrate/20100401102949_create_tables.rb",
+     "spec/scenario/db/schema.rb",
+     "spec/spec_helper.rb",
+     "spec/strategy_spec.rb",
+     "spec/support/migrations.rb",
+     "spec/support/patches.rb"
+  ]
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
