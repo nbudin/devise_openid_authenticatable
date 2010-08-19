@@ -101,7 +101,7 @@ describe Devise::Strategies::OpenidAuthenticatable do
     it 'should fail authentication with failure' do
       response.should be_success
       response.should render_template("sessions/new")
-      flash[:alert].should match(/auth failed/i)
+      flash[:alert].should match(/failed/i)
     end
   end
 
@@ -114,7 +114,7 @@ describe Devise::Strategies::OpenidAuthenticatable do
     it 'should fail authentication with failure' do
       response.should be_success
       response.should render_template("sessions/new")
-      flash[:alert].should match(/auth cancelled/i)
+      flash[:alert].should match(/cancelled/i)
     end
   end
 

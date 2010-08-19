@@ -2,3 +2,4 @@ pkg/*
 log/
 Gemfile.lock
 .bundle
+spec/scenario/db/*.sqlite3
