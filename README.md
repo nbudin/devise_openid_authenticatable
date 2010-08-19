@@ -62,11 +62,14 @@ aren't using database_authenticatable:
       <p><%= f.submit "Sign in" %></p>
     <% end -%>
 
-Finally, you'll need to wire up Rack::OpenID in your Rails configuration.  If you're using Devise 1.0, you can do:
+Finally, you'll need to wire up Rack::OpenID in your Rails configuration.  The way to do this varies depending on which version of Rails you're using.  If you're on Rails 2.3 (and Devise 1.0), you must initialize it like this:
 
-    config.middleware.use "Rack::OpenID"
+    require 'openid/store/memory'
+    config.middleware.use "Rack::OpenID", OpenID::Store::Memory.new
 
-If you're using Devise 1.1 or a later version, you'll need to do this instead, to ensure that Rack::OpenID sits above Warden in the Rack middleware stack:
+(Specifying an OpenID store instance is necessary because Rails 2.3 reinitializes the middleware objects on each request, so in order to ensure that the stored OpenID data is persistent between subsequent requests, we initialize the Memory store upfront and pass in the same instance each time.  If you prefer to use a different store, such as the Memcached store, feel free to substitute in the appropriate class here.)
+
+If you're using Rails 3, you'll need to do this instead, to ensure that Rack::OpenID sits above Warden in the Rack middleware stack:
 
     config.middleware.insert_before(Warden::Manager, Rack::OpenID)
 
