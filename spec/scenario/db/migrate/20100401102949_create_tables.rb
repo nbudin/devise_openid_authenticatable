@@ -2,6 +2,7 @@ class CreateTables < ActiveRecord::Migration
   def self.up
     create_table :users do |t|
       t.openid_authenticatable
+      t.rememberable
       t.string :email
       t.timestamps
     end

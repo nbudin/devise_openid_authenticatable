@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  devise :openid_authenticatable
+  devise :openid_authenticatable, :rememberable
 
   def self.create_from_identity_url(identity_url)
     create do |user|

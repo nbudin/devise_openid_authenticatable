@@ -82,13 +82,32 @@ describe Devise::Strategies::OpenidAuthenticatable do
 
   describe "POST /users/sign_in (with a valid identity URL param)" do
     before do
-      Rack::OpenID.any_instance.stubs(:begin_authentication).returns([302, {'location' => 'http://openid.example.org/auth'}, ''])
-      post '/users/sign_in', 'user' => { 'identity_url' => 'http://openid.example.org/myid' }
+      post '/users/sign_in', 'user' => { 'identity_url' => 'http://openid.example.org/john.doe?openid.success=true' }
     end
 
     it 'should forward request to provider' do
       response.should be_redirect
-      response.should redirect_to('http://openid.example.org/auth')
+      redirect_uri = URI.parse(response.header['Location'])
+      redirect_uri.host.should == "openid.example.org"
+      redirect_uri.path.should match(/^\/server/)
+    end
+  end
+  
+  describe "POST /users/sign_in (with rememberable)" do
+    before do
+      post '/users/sign_in', 'user' => { 'identity_url' => 'http://openid.example.org/john.doe?openid.success=true', 'remember_me' => 1 }
+    end
+    
+    it 'should forward request to provider, with params preserved' do
+      response.should be_redirect
+      redirect_uri = URI.parse(response.header['Location'])
+      redirect_uri.host.should == "openid.example.org"
+      redirect_uri.path.should match(/^\/server/)
+      
+      # Crack open the redirect URI and extract the return parameter from it, then parse it too
+      req = Rack::Request.new(Rack::MockRequest.env_for(redirect_uri.to_s))
+      return_req = Rack::Request.new(Rack::MockRequest.env_for(req.params['openid.return_to']))
+      return_req.params['user']['remember_me'].to_i.should == 1
     end
   end
 
@@ -134,6 +153,26 @@ describe Devise::Strategies::OpenidAuthenticatable do
     it 'should update user-records with retrieved information' do
       User.should have(1).record
       User.first.email.should == 'dimitrij@example.com'
+    end
+  end
+  
+  describe "POST /users/sign_in (from OpenID provider, success, rememberable)" do
+
+    before do
+      stub_completion
+      post '/users/sign_in', openid_params.merge("_method"=>"post", "user" => { "remember_me" => 1 })
+    end
+
+    it 'should accept authentication with success' do
+      response.should be_redirect
+      response.should redirect_to('http://www.example.com/')
+      flash[:notice].should match(/success/i)
+    end
+
+    it 'should update user-records with retrieved information and remember token' do
+      User.should have(1).record
+      User.first.email.should == 'dimitrij@example.com'
+      User.first.remember_token.should_not be_nil
     end
   end
 
