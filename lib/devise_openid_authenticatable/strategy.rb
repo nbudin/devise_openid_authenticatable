@@ -1,9 +1,13 @@
 require 'devise/strategies/base'
 require 'rack/openid'
 
-module Devise
-  module Strategies
-    class OpenidAuthenticatable < Base
+base_class = begin
+  Devise::Strategies::Authenticatable
+rescue
+  Devise::Strategies::Base
+end
+
+class Devise::Strategies::OpenidAuthenticatable < base_class
 
       def valid?
         valid_mapping? && ( provider_response? || identity_param? )
@@ -15,7 +19,7 @@ module Devise
         if provider_response
           handle_response!
         else # Delegate authentication to Rack::OpenID by throwing a 401
-          opts = { :identifier => params[scope]["identity_url"] }
+          opts = { :identifier => params[scope]["identity_url"], :return_to => return_url, :method => 'post' }
           opts[:optional] = mapping.to.openid_optional_fields if mapping.to.respond_to?(:openid_optional_fields)
           opts[:required] = mapping.to.openid_required_fields if mapping.to.respond_to?(:openid_required_fields)
           custom! [401, { Rack::OpenID::AUTHENTICATE_HEADER => Rack::OpenID.build_header(opts) }, "Sign in with OpenID"]
@@ -91,9 +95,18 @@ module Devise
         def logger
           @logger ||= ((Rails && Rails.logger) || RAILS_DEFAULT_LOGGER)
         end
+        
+        def return_url
+          return_to = URI.parse(request.url)
+          scope_params = params[scope].inject({}) do |return_params, pair|
+            param, value = pair
+            return_params["#{scope}[#{param}]"] = value
+            return_params
+          end
+          return_to.query = Rack::Utils.build_query(scope_params)
+          return_to.to_s
+        end
 
-    end
-  end
 end
 
 Warden::Strategies.add :openid_authenticatable, Devise::Strategies::OpenidAuthenticatable
