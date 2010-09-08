@@ -27,7 +27,7 @@ begin
     gemspec.homepage = "http://github.com/nbudin/devise_openid_authenticatable"
     gemspec.authors = ["Nat Budin"]
     gemspec.add_runtime_dependency "devise", ">= 1.0.6"
-    gemspec.add_runtime_dependency "rack-openid", ">= 1.1.2"
+    gemspec.add_runtime_dependency "rack-openid", ">= 1.2.0"
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
