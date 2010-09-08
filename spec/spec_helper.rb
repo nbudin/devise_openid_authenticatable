@@ -13,6 +13,10 @@ Webrat.configure do |config|
   config.open_error_files = false
 end
 
+RSpec.configure do |config| 
+  config.mock_with :mocha 
+end
+
 # This is mostly copied in from bin/rots; they don't provide a single app class we could just reuse, unfortunately
 
 rots_config = YAML.load(<<-ROTS_CONFIG)
