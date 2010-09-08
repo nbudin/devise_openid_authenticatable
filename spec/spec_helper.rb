@@ -21,7 +21,7 @@ end
 
 rots_config = YAML.load(<<-ROTS_CONFIG)
 # Default configuration file
-identity: john.doe
+identity: myid
 sreg:
   nickname: jdoe
   fullname: John Doe
