@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nat Budin"]
-  s.date = %q{2010-09-04}
+  s.date = %q{2010-09-08}
   s.description = %q{OpenID authentication module for Devise using Rack::OpenID}
   s.email = %q{natbudin@gmail.com}
   s.extra_rdoc_files = [
@@ -34,6 +34,7 @@ Gem::Specification.new do |s|
      "spec/scenario/app/controllers/home_controller.rb",
      "spec/scenario/app/controllers/sessions_controller.rb",
      "spec/scenario/app/models/user.rb",
+     "spec/scenario/app/views/layouts/application.html.erb",
      "spec/scenario/app/views/sessions/new.html.erb",
      "spec/scenario/config.ru",
      "spec/scenario/config/application.rb",
@@ -50,8 +51,7 @@ Gem::Specification.new do |s|
      "spec/scenario/db/schema.rb",
      "spec/spec_helper.rb",
      "spec/strategy_spec.rb",
-     "spec/support/migrations.rb",
-     "spec/support/patches.rb"
+     "spec/support/migrations.rb"
   ]
   s.homepage = %q{http://github.com/nbudin/devise_openid_authenticatable}
   s.rdoc_options = ["--charset=UTF-8"]
@@ -77,8 +77,7 @@ Gem::Specification.new do |s|
      "spec/scenario/db/schema.rb",
      "spec/spec_helper.rb",
      "spec/strategy_spec.rb",
-     "spec/support/migrations.rb",
-     "spec/support/patches.rb"
+     "spec/support/migrations.rb"
   ]
 
   if s.respond_to? :specification_version then
@@ -87,14 +86,14 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<devise>, [">= 1.0.6"])
-      s.add_runtime_dependency(%q<rack-openid>, [">= 1.1.2"])
+      s.add_runtime_dependency(%q<rack-openid>, [">= 1.2.0"])
     else
       s.add_dependency(%q<devise>, [">= 1.0.6"])
-      s.add_dependency(%q<rack-openid>, [">= 1.1.2"])
+      s.add_dependency(%q<rack-openid>, [">= 1.2.0"])
     end
   else
     s.add_dependency(%q<devise>, [">= 1.0.6"])
-    s.add_dependency(%q<rack-openid>, [">= 1.1.2"])
+    s.add_dependency(%q<rack-openid>, [">= 1.2.0"])
   end
 end
 

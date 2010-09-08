@@ -1,3 +1,8 @@
+== 1.0.0.alpha7
+
+* GH-3: Add support for rememberable.
+  * This requires an upgrade to rack-openid 1.2.0 or higher.
+
 == 1.0.0.alpha5
 
 * GH-5: Don't try to convert returned values to strings from AX providers
