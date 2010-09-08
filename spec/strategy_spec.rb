@@ -25,7 +25,8 @@ describe Devise::Strategies::OpenidAuthenticatable do
     ax_info  = mock('AXInfo', :data => { "http://axschema.org/contact/email" => ["dimitrij@example.com"] })
     OpenID::AX::FetchResponse.stubs(:from_success_response).returns(ax_info)
 
-    endpoint = mock('EndPoint', :claimed_id => identity)
+    endpoint = mock('EndPoint')
+    endpoint.stubs(:claimed_id).returns(identity)
     success  = OpenID::Consumer::SuccessResponse.new(endpoint, OpenID::Message.new, "ANY")
     OpenID::Consumer.any_instance.stubs(:complete_id_res).returns(success)
   end
