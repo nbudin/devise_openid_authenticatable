@@ -66,7 +66,7 @@ class Devise::Strategies::OpenidAuthenticatable < base_class
     end
 
     def valid_mapping?
-      mapping.to.respond_to?(:find_by_identity_url) || mapping.to.respond_to?(:find_for_openid_authentication)
+      mapping.to.respond_to?(:find_by_identity_url)
     end
 
     def identity_param?
