@@ -34,14 +34,16 @@ class Devise::Strategies::OpenidAuthenticatable < base_class
 
       case provider_response.status
       when :success
-        resource = mapping.to.find_by_identity_url(provider_response.identity_url)
-        if resource.nil? && mapping.to.respond_to?(:create_from_identity_url)
-          resource = mapping.to.create_from_identity_url(provider_response.identity_url)
-        end
+        resource = find_resource || build_resource || create_resource
 
         if resource
-          update_resource!(resource)
-          success!(resource)
+          begin
+            update_resource!(resource)
+          rescue
+            fail! $!
+          else
+            success!(resource)
+          end
         else
           fail! "This OpenID URL is not associated with any registered user"
         end
@@ -64,32 +66,52 @@ class Devise::Strategies::OpenidAuthenticatable < base_class
     end
 
     def valid_mapping?
-      mapping.to.respond_to?(:find_by_identity_url)
+      mapping.to.respond_to?(:find_by_identity_url) || mapping.to.respond_to?(:find_for_openid_authentication)
     end
 
     def identity_param?
       params[scope].try(:[], 'identity_url').present?
     end
+    
+    def find_resource
+      mapping.to.find_by_identity_url(provider_response.identity_url)
+    end
+    
+    def build_resource
+      if mapping.to.respond_to?(:build_from_identity_url)
+        mapping.to.build_from_identity_url(provider_response.identity_url)
+      end
+    end
+    
+    def create_resource
+      if mapping.to.respond_to?(:create_from_identity_url)
+        mapping.to.create_from_identity_url(provider_response.identity_url)
+      end
+    end
 
     def update_resource!(resource)
-      return unless resource.respond_to?(:openid_fields=)
-
-      fields = nil
+      if fields && resource.respond_to?(:openid_fields=)
+        resource.openid_fields = fields
+      end
+      
+      resource.save!
+    end
+    
+    def fields
+      return @fields unless @fields.nil?
+      
       if axr = OpenID::AX::FetchResponse.from_success_response(provider_response)
-        fields = axr.data
+        @fields = axr.data
       else
         provider_response.message.namespaces.each do |uri, ns_alias|
           if ns_alias.to_s == "sreg"
-            fields = provider_response.extension_response(uri, true)
+            @fields = provider_response.extension_response(uri, true)
             break
           end
         end
       end
-
-      if fields
-        resource.openid_fields = fields
-        resource.save
-      end
+      
+      return @fields
     end
 
     def logger
