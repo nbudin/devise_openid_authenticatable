@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{devise_openid_authenticatable}
-  s.version = "1.0.0.alpha7"
+  s.version = "1.0.0.beta1"
 
   s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nat Budin"]
-  s.date = %q{2010-09-08}
+  s.date = %q{2010-12-21}
   s.description = %q{OpenID authentication module for Devise using Rack::OpenID}
   s.email = %q{natbudin@gmail.com}
   s.extra_rdoc_files = [
@@ -33,6 +33,7 @@ Gem::Specification.new do |s|
      "spec/scenario/app/controllers/application_controller.rb",
      "spec/scenario/app/controllers/home_controller.rb",
      "spec/scenario/app/controllers/sessions_controller.rb",
+     "spec/scenario/app/models/database_user.rb",
      "spec/scenario/app/models/user.rb",
      "spec/scenario/app/views/layouts/application.html.erb",
      "spec/scenario/app/views/sessions/new.html.erb",
@@ -63,6 +64,7 @@ Gem::Specification.new do |s|
      "spec/scenario/app/controllers/application_controller.rb",
      "spec/scenario/app/controllers/home_controller.rb",
      "spec/scenario/app/controllers/sessions_controller.rb",
+     "spec/scenario/app/models/database_user.rb",
      "spec/scenario/app/models/user.rb",
      "spec/scenario/config/application.rb",
      "spec/scenario/config/boot.rb",
