@@ -39,10 +39,17 @@ describe Devise::Strategies::OpenidAuthenticatable do
     User.create! do |u|
       u.identity_url = "http://openid.example.org/myid"
     end
+    
+    DatabaseUser.create! do |u|
+      u.email = "dbuser@example.com"
+      u.password = "password"
+      u.identity_url = "http://openid.example.org/myid"
+    end
   end
 
   after do
     User.delete_all
+    DatabaseUser.delete_all
   end
 
   describe "GET /protected/resource" do
@@ -199,4 +206,87 @@ describe Devise::Strategies::OpenidAuthenticatable do
     end
   end
 
+  describe "POST /database_users/sign_in (using database authentication)" do
+    
+    before do
+      post '/database_users/sign_in', :database_user => { :email => "dbuser@example.com", :password => "password" }
+    end
+    
+    it 'should accept authentication with success' do
+      response.should be_redirect
+      response.should redirect_to('http://www.example.com/')
+      flash[:notice].should match(/success/i)
+    end
+    
+  end
+  
+  describe "POST /database_users/sign_in (using OpenID, begin_authentication)" do
+    before do
+      Rack::OpenID.any_instance.stubs(:begin_authentication).returns([302, {'location' => 'http://openid.example.org/server'}, ''])
+      post '/database_users/sign_in', 'database_user' => { 'identity_url' => 'http://openid.example.org/myid' }
+    end
+
+    it 'should forward request to provider' do
+      response.should be_redirect
+      response.should redirect_to('http://openid.example.org/server')
+    end
+  end
+  
+  describe "POST /database_users/sign_in (using OpenID, from provider, existing user)" do
+    before do
+      stub_completion
+      post '/database_users/sign_in', openid_params.merge("_method"=>"post")
+    end
+
+    it 'should accept authentication with success' do
+      response.should be_redirect
+      response.should redirect_to('http://www.example.com/')
+      flash[:notice].should match(/success/i)
+    end
+
+    it 'should update user-records with retrieved information' do
+      DatabaseUser.should have(1).record
+      DatabaseUser.first.email.should == 'dimitrij@example.com'
+    end
+  end
+  
+  describe "POST /database_users/sign_in (using OpenID, from provider, existing email)" do
+    before do
+      DatabaseUser.delete_all
+      DatabaseUser.create! do |u|
+        u.email = "dimitrij@example.com"
+        u.password = "password"
+      end
+      
+      stub_completion
+      post '/database_users/sign_in', openid_params.merge("_method"=>"post")
+    end
+
+    it 'should fail to authenticate with existing email error' do
+      response.should be_success
+      response.should render_template("sessions/new")
+      flash[:alert].should match(/email/i)
+      DatabaseUser.should have(1).record
+    end
+  end
+  
+  describe "POST /database_users/sign_in (using OpenID, from provider, forgery attempt)" do
+    before do
+      DatabaseUser.delete_all
+      DatabaseUser.create! do |u|
+        u.email = "dimitrij@example.com"
+        u.password = "password"
+        u.identity_url = "http://openid.example.org/different_id"
+      end
+      
+      stub_completion
+      post '/database_users/sign_in', openid_params.merge("_method"=>"post")
+    end
+
+    it 'should fail authentication with existing email error' do
+      response.should be_success
+      response.should render_template("sessions/new")
+      flash[:alert].should match(/email/i)
+    end
+  end
 end

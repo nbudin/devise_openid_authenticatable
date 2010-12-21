@@ -35,7 +35,7 @@ class Devise::Strategies::OpenidAuthenticatable < base_class
       case provider_response.status
       when :success
         resource = find_resource || build_resource || create_resource
-
+        
         if resource
           begin
             update_resource!(resource)

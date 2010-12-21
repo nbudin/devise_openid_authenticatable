@@ -6,9 +6,16 @@ class CreateTables < ActiveRecord::Migration
       t.string :email
       t.timestamps
     end
+    
+    create_table :database_users do |t|
+      t.openid_authenticatable
+      t.database_authenticatable
+      t.timestamps
+    end
   end
 
   def self.down
     drop_table :users
+    drop_table :database_users
   end
 end
