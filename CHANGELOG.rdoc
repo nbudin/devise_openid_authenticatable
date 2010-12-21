@@ -1,3 +1,12 @@
+== 1.0.0.beta1
+* Implement support for build_from_identity_url.  create_from_identity_url is now deprecated.
+  * build_from_identity_url should return a new, unsaved model instance rather than a persisted one.
+  * This has multiple benefits: validation should become easier, and we can avoid doing multiple modification queries during the initial registration.
+  * Switching over should be straightforward but is not a simple matter of changing the method's name.  Its behavior needs to be altered to return an unsaved instance.
+  * This affects all users of devise_openid_authenticatable.
+* Attempt to pass a more correct trust_root to the OpenID provider.
+* Fill out Dimitrij's test suite a bit more.
+
 == 1.0.0.alpha7
 
 * GH-3: Add support for rememberable.

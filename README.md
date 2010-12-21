@@ -77,14 +77,14 @@ Automatically creating users
 ----------------------------
 
 If you want to have users automatically created when a new OpenID identity URL is
-successfully used to sign in, you can implement a method called "create_from_identity_url"
+successfully used to sign in, you can implement a method called "build_from_identity_url"
 to your user model class:
 
     class User < ActiveRecord::Base
       devise :openid_authenticatable
       
-      def self.create_from_identity_url(identity_url)
-        User.create(:identity_url => identity_url)
+      def self.build_from_identity_url(identity_url)
+        User.new(:identity_url => identity_url)
       end
     end
     
@@ -155,6 +155,4 @@ See also
 TODO
 ----
 
-* Add sreg attributes support
-* Write test suite
 * Test on non-ActiveRecord ORMs
