@@ -224,7 +224,6 @@ describe Devise::Strategies::OpenidAuthenticatable do
     end
     
     after do
-      puts @log_output.string
       Rails.logger = @previous_logger
     end
 
@@ -235,15 +234,15 @@ describe Devise::Strategies::OpenidAuthenticatable do
     end
 
     it 'should auto-create user-records (if supported)' do
-      User.should have(2).records
+      LegacyUser.should have(2).records
     end
 
     it 'should update new user-records with retrieved information' do
-      User.order(:id).last.email.should == 'dimitrij@example.com'
+      LegacyUser.order(:id).last.email.should == 'dimitrij@example.com'
     end
     
     it 'should issue a deprecation warning' do
-      @log_output.string.should =~ /DEPRECATION WARNING/
+      @log_output.string.should =~ /DEPRECATION WARNING: create_from_identity_url/
     end
   end
 
