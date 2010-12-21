@@ -1,3 +1,6 @@
+== 1.0.0.beta2
+* Fix a typo that was breaking all apps using create_from_identity_url.
+
 == 1.0.0.beta1
 * Implement support for build_from_identity_url.  create_from_identity_url is now deprecated.
   * build_from_identity_url should return a new, unsaved model instance rather than a persisted one.
