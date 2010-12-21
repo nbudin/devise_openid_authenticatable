@@ -85,7 +85,7 @@ class Devise::Strategies::OpenidAuthenticatable < base_class
     
     def create_resource
       if mapping.to.respond_to?(:create_from_identity_url)
-        log.warn "DEPRECATION WARNING: create_from_identity_url is deprecated.  Please implement build_from_identity_url instead.  For more information, please see the devise_openid_authenticatable README."
+        logger.warn "DEPRECATION WARNING: create_from_identity_url is deprecated.  Please implement build_from_identity_url instead.  For more information, please see the devise_openid_authenticatable CHANGELOG for version 1.0.0.beta1."
         mapping.to.create_from_identity_url(provider_response.identity_url)
       end
     end
