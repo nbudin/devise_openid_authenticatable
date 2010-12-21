@@ -1,6 +1,5 @@
 class DatabaseUser < ActiveRecord::Base
-  devise :database_authenticatable, :openid_authenticatable
-  validates_uniqueness_of :email, :case_sensitive => false, :allow_blank => true
+  devise :database_authenticatable, :openid_authenticatable, :validatable
   
   def self.build_from_identity_url(identity_url)
     new(:identity_url => identity_url)
