@@ -40,6 +40,10 @@ describe Devise::Strategies::OpenidAuthenticatable do
       u.identity_url = "http://openid.example.org/myid"
     end
     
+    LegacyUser.create! do |u|
+      u.identity_url = "http://openid.example.org/myid"
+    end
+    
     DatabaseUser.create! do |u|
       u.email = "dbuser@example.com"
       u.password = "password"
@@ -49,6 +53,7 @@ describe Devise::Strategies::OpenidAuthenticatable do
 
   after do
     User.delete_all
+    LegacyUser.delete_all
     DatabaseUser.delete_all
   end
 
@@ -203,6 +208,42 @@ describe Devise::Strategies::OpenidAuthenticatable do
 
     it 'should update new user-records with retrieved information' do
       User.order(:id).last.email.should == 'dimitrij@example.com'
+    end
+  end
+  
+  describe "POST /legacy_users/sign_in (from OpenID provider, success, new user)" do
+
+    before do
+      @previous_logger = Rails.logger
+      @log_output = StringIO.new
+      Rails.logger = Logger.new(@log_output)
+      
+      @identity = 'http://openid.example.org/newid'
+      stub_completion
+      post '/legacy_users/sign_in', openid_params.merge("_method"=>"post")
+    end
+    
+    after do
+      puts @log_output.string
+      Rails.logger = @previous_logger
+    end
+
+    it 'should accept authentication with success' do
+      response.should be_redirect
+      response.should redirect_to('http://www.example.com/')
+      flash[:notice].should match(/success/i)
+    end
+
+    it 'should auto-create user-records (if supported)' do
+      User.should have(2).records
+    end
+
+    it 'should update new user-records with retrieved information' do
+      User.order(:id).last.email.should == 'dimitrij@example.com'
+    end
+    
+    it 'should issue a deprecation warning' do
+      @log_output.string.should =~ /DEPRECATION WARNING/
     end
   end
 
