@@ -10,4 +10,9 @@ gem "sqlite3-ruby"
 gem "rots", :git => "http://github.com/roman/rots.git"
 gem "sham_rack"
 gem "webrat"
-gem "ruby-debug"
+
+if RUBY_VERSION.start_with? '1.9'
+  gem "ruby-debug19"
+else
+  gem "ruby-debug"
+end
