@@ -10,7 +10,7 @@ devise_openid_authenticatable is [OpenID](http://openid.net) authentication supp
 Requirements
 ------------
 
-- Devise 1.3
+- Devise 1.3 or higher
 - rack-openid
 
 Installation
