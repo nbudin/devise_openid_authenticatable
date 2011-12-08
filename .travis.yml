@@ -3,7 +3,7 @@ rvm:
   - 1.9.2
   - 1.9.3
   - ree
-gemfiles:
+gemfile:
   - Gemfile.devise15
   - Gemfile.devise13
   - Gemfile.devise14
