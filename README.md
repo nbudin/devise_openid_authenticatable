@@ -1,4 +1,4 @@
-devise_openid_authenticatable
+devise_openid_authenticatable [![Build Status](https://secure.travis-ci.org/[nbudin]/[devise_openid_authenticatable].png)](http://travis-ci.org/[nbudin]/[devise_openid_authenticatable])
 ==========================
 
 Written by Nat Budin
@@ -10,22 +10,17 @@ devise_openid_authenticatable is [OpenID](http://openid.net) authentication supp
 Requirements
 ------------
 
-- Devise 1.0.6 or later (including 1.1 versions)
+- Devise 1.3
 - rack-openid
 
 Installation
 ------------
 
-    gem install --pre devise_openid_authenticatable
+Add the following to your project's Gemfile:
+
+    gem "devise_openid_authenticatable"
     
-and add devise_openid_authenticatable to your Gemfile or config/environment.rb as a gem
-dependency.
-
-Example
--------
-
-I've modified the devise_example application to work with this gem.  You can find the results
-[here](http://github.com/nbudin/devise_openid_example).
+Then run `bundle install`.
     
 Setup
 -----
@@ -62,16 +57,13 @@ aren't using database_authenticatable:
       <p><%= f.submit "Sign in" %></p>
     <% end -%>
 
-Finally, you'll need to wire up Rack::OpenID in your Rails configuration.  The way to do this varies depending on which version of Rails you're using.  If you're on Rails 2.3 (and Devise 1.0), you must initialize it like this:
-
-    require 'openid/store/memory'
-    config.middleware.use "Rack::OpenID", OpenID::Store::Memory.new
-
-(Specifying an OpenID store instance is necessary because Rails 2.3 reinitializes the middleware objects on each request, so in order to ensure that the stored OpenID data is persistent between subsequent requests, we initialize the Memory store upfront and pass in the same instance each time.  If you prefer to use a different store, such as the Memcached store, feel free to substitute in the appropriate class here.)
-
-If you're using Rails 3, you'll need to do this instead, to ensure that Rack::OpenID sits above Warden in the Rack middleware stack:
+Finally, you'll need to wire up Rack::OpenID in your Rails configuration:
 
     config.middleware.insert_before(Warden::Manager, Rack::OpenID)
+
+(Rack::OpenID needs to come before Warden in the middleware stack so that by the time
+devise_openid_authenticatable tries to authenticate the user, the OpenID response will
+have already been decoded by Rack::OpenID.)
 
 Automatically creating users
 ----------------------------
