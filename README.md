@@ -1,4 +1,4 @@
-devise_openid_authenticatable [![Build Status](https://secure.travis-ci.org/[nbudin]/[devise_openid_authenticatable].png)](http://travis-ci.org/[nbudin]/[devise_openid_authenticatable])
+devise_openid_authenticatable [![Build Status](https://secure.travis-ci.org/nbudin/devise_openid_authenticatable.png)](http://travis-ci.org/nbudin/devise_openid_authenticatable)
 ==========================
 
 Written by Nat Budin
