@@ -1,5 +1,5 @@
-require 'rake'
-require 'rake/rdoctask'
+require 'bundler/gem_tasks'
+require 'rdoc/task'
 require 'rspec/mocks/version'
 require 'rspec/core/rake_task'
 
@@ -15,19 +15,4 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.options << '--line-numbers' << '--inline-source'
   rdoc.rdoc_files.include('README')
   rdoc.rdoc_files.include('lib/**/*.rb')
-end
-
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gemspec|
-    gemspec.name = "devise_openid_authenticatable"
-    gemspec.summary = "OpenID authentication module for Devise"
-    gemspec.description = "OpenID authentication module for Devise using Rack::OpenID"
-    gemspec.email = "natbudin@gmail.com"
-    gemspec.homepage = "http://github.com/nbudin/devise_openid_authenticatable"
-    gemspec.authors = ["Nat Budin"]
-  end
-  Jeweler::GemcutterTasks.new
-rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
 end

@@ -8,4 +8,4 @@ Devise.add_module :openid_authenticatable,
   :strategy => true,
   :model => 'devise_openid_authenticatable/model',
   :controller => :sessions,
-  :route => :openid
+  :route => :session

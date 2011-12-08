@@ -10,6 +10,11 @@ module Devise
           find(:first, :conditions => {:identity_url => identity_url})
         end
       end
+      
+      module InstanceMethods
+        def valid_for_authentication?
+        end
+      end
     end
   end
 end

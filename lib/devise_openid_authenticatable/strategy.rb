@@ -1,14 +1,7 @@
 require 'devise/strategies/base'
 require 'rack/openid'
 
-base_class = begin
-  Devise::Strategies::Authenticatable
-rescue
-  Devise::Strategies::Base
-end
-
-class Devise::Strategies::OpenidAuthenticatable < base_class
-
+class Devise::Strategies::OpenidAuthenticatable < Devise::Strategies::Authenticatable
   def valid?
     valid_mapping? && ( provider_response? || identity_param? )
   end
@@ -32,12 +25,12 @@ class Devise::Strategies::OpenidAuthenticatable < base_class
     # Handles incoming provider response
     def handle_response!
       logger.debug "Attempting OpenID auth: #{provider_response.inspect}"
-
+      
       case provider_response.status
       when :success
         resource = find_resource || build_resource || create_resource
         
-        if resource
+        if resource && validate(resource)
           begin
             update_resource!(resource)
           rescue

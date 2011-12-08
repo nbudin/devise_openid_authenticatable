@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Devise::Strategies::OpenidAuthenticatable do
-  include Rspec::Rails::RequestExampleGroup
+  include RSpec::Rails::RequestExampleGroup
 
   def openid_params
     {
