@@ -12,7 +12,7 @@ class Devise::Strategies::OpenidAuthenticatable < Devise::Strategies::Authentica
     if provider_response
       handle_response!
     else # Delegate authentication to Rack::OpenID by throwing a 401
-      opts = { :identifier => params[scope]["identity_url"], :return_to => return_url, :trust_root => trust_root, :method => 'post' }
+      opts = { :identifier => params[scope]["identity_url"], :return_to => return_url, :trust_root => trust_root }
       opts[:immediate] = true if params[scope]["immediate"]
       opts[:optional] = mapping.to.openid_optional_fields if mapping.to.respond_to?(:openid_optional_fields)
       opts[:required] = mapping.to.openid_required_fields if mapping.to.respond_to?(:openid_required_fields)
