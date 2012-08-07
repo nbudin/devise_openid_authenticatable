@@ -14,11 +14,11 @@ Gem::Specification.new do |gem|
   gem.name          = "devise_openid_authenticatable"
   gem.require_paths = ["lib"]
   gem.version       = DeviseOpenidAuthenticatable::VERSION
-  
-  gem.add_dependency "rack-openid", ">= 1.2.0"
-  gem.add_dependency "devise", "~> 1.3"
 
-  gem.add_development_dependency 'rails', '~> 3.0.0'
+  gem.add_dependency "rack-openid", ">= 1.2.0"
+  gem.add_dependency "devise", "~> 2.1.0"
+
+  gem.add_development_dependency 'rails', '~> 3.2.0'
   gem.add_development_dependency "rspec", "~> 2.3"
   gem.add_development_dependency "rspec-rails", "~> 2.3"
   gem.add_development_dependency "mocha"
