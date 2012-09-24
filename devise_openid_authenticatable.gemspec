@@ -16,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.version       = DeviseOpenidAuthenticatable::VERSION
   
   gem.add_dependency "rack-openid", ">= 1.2.0"
-  gem.add_dependency "devise", "~> 1.3"
+  gem.add_dependency "devise", ">= 1.3"
 
   gem.add_development_dependency 'rails', '~> 3.0.0'
   gem.add_development_dependency "rspec", "~> 2.3"
