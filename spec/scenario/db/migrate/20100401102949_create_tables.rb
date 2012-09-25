@@ -15,6 +15,7 @@ class CreateTables < ActiveRecord::Migration
       require 'devise/schema'
       t.rememberable
     else
+      t.string :remember_token
       t.datetime :remember_created_at
     end
   end
