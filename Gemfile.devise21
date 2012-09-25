@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem "devise", "~> 2.1.0"
+gem "rails", "~> 3.2.0"
 
 group :test do
   gem "rots", :git => "http://github.com/roman/rots.git"
