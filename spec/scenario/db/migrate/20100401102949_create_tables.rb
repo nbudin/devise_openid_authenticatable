@@ -1,31 +1,33 @@
 require 'devise/version'
 
-def openid_authenticatable_fields(t)
-  if Devise::VERSION < "2.1"
-    require 'devise/schema'
-    t.openid_authenticatable
-  else
-    t.string :identity_url
-  end
-end
+
 
 class CreateTables < ActiveRecord::Migration
+  def self.openid_authenticatable_fields(t)
+    if Devise::VERSION < "2.1"
+      require 'devise/schema'
+      t.openid_authenticatable
+    else
+      t.string :identity_url
+    end
+  end
+
   def self.up
     create_table :users do |t|
-      openid_authenticatable t
+      openid_authenticatable_fields t
       t.rememberable
       t.string :email
       t.timestamps
     end
     
     create_table :database_users do |t|
-      openid_authenticatable t
+      openid_authenticatable_fields t
       t.database_authenticatable
       t.timestamps
     end
     
     create_table :legacy_users do |t|
-      openid_authenticatable t
+      openid_authenticatable_fields t
       t.rememberable
       t.string :email
       t.timestamps
