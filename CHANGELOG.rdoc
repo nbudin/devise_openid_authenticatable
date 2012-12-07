@@ -1,3 +1,6 @@
+== 1.1.2
+* Remove the requirement to manually modify the Rack middleware stack on Rails 3 (thanks Anton Orel!)
+
 == 1.1.1
 * Add support for Devise >= 2.1.0
 
