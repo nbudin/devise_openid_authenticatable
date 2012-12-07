@@ -57,7 +57,7 @@ aren't using database_authenticatable:
       <p><%= f.submit "Sign in" %></p>
     <% end -%>
 
-Finally, you'll need to wire up Rack::OpenID in your Rails configuration:
+Finally, *Rails 2* users, you'll need to wire up Rack::OpenID in your Rails configuration:
 
     config.middleware.insert_before(Warden::Manager, Rack::OpenID)
 
