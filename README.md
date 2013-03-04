@@ -35,7 +35,7 @@ should work fine alongside openid_authenticatable.
 You'll also need to set up the database schema for this:
 
     create_table :users do |t|
-      t.openid_authenticatable
+      t.string :identity_url
     end
 
 and, optionally, indexes:
