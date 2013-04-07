@@ -115,12 +115,15 @@ class Devise::Strategies::OpenidAuthenticatable < Devise::Strategies::Authentica
     
     def return_url
       return_to = URI.parse(request.url)
-      scope_params = params[scope].inject({}) do |return_params, pair|
+      return_params = params[scope].inject({}) do |request_params, pair|
         param, value = pair
-        return_params["#{scope}[#{param}]"] = value
-        return_params
+        request_params["#{scope}[#{param}]"] = value
+        request_params
       end
-      return_to.query = Rack::Utils.build_query(scope_params)
+      if params[:authenticity_token]
+        return_params['authenticity_token'] = params[:authenticity_token]
+      end
+      return_to.query = Rack::Utils.build_query(return_params)
       return_to.to_s
     end
 
