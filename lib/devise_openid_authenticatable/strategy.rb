@@ -19,6 +19,11 @@ class Devise::Strategies::OpenidAuthenticatable < Devise::Strategies::Authentica
       custom! [401, { Rack::OpenID::AUTHENTICATE_HEADER => Rack::OpenID.build_header(opts) }, "Sign in with OpenID"]
     end
   end
+  
+  # CSRF won't be able to be verified on returning from the OpenID server, so we will bypass that check for this strategy
+  def store?
+    true
+  end
 
   protected
 
@@ -119,9 +124,6 @@ class Devise::Strategies::OpenidAuthenticatable < Devise::Strategies::Authentica
         param, value = pair
         request_params["#{scope}[#{param}]"] = value
         request_params
-      end
-      if params[:authenticity_token]
-        return_params['authenticity_token'] = params[:authenticity_token]
       end
       return_to.query = Rack::Utils.build_query(return_params)
       return_to.to_s
