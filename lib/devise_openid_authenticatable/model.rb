@@ -7,7 +7,7 @@ module Devise
 
       module ClassMethods
         def find_by_identity_url(identity_url)
-          find(:first, :conditions => {:identity_url => identity_url})
+          where(:identity_url => identity_url).first
         end
       end
       
