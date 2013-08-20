@@ -95,7 +95,7 @@ describe Devise::Strategies::OpenidAuthenticatable do
 
   describe "POST /users/sign_in (with a valid identity URL param)" do
     before do
-      Rack::OpenID.any_instance.stubs(:begin_authentication).returns([302, {'location' => 'http://openid.example.org/server'}, ['']])
+      Rack::OpenID.any_instance.stubs(:begin_authentication).returns([302, {'Location' => 'http://openid.example.org/server'}, ['']])
       post '/users/sign_in', 'user' => { 'identity_url' => 'http://openid.example.org/myid' }
     end
 
@@ -262,7 +262,7 @@ describe Devise::Strategies::OpenidAuthenticatable do
   
   describe "POST /database_users/sign_in (using OpenID, begin_authentication)" do
     before do
-      Rack::OpenID.any_instance.stubs(:begin_authentication).returns([302, {'location' => 'http://openid.example.org/server'}, ['']])
+      Rack::OpenID.any_instance.stubs(:begin_authentication).returns([302, {'Location' => 'http://openid.example.org/server'}, ['']])
       post '/database_users/sign_in', 'database_user' => { 'identity_url' => 'http://openid.example.org/myid' }
     end
 
