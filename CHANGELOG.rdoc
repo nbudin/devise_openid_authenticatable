@@ -1,3 +1,7 @@
+== 1.1.4
+* Remove authenticity token from return parameters, and instead stop requiring it for successful authentication.  This is required to be compatible with Devise's recent security fixes.
+* Test suite is now fully passing on Devise 1.4 through 3.0
+
 == 1.1.3
 * Add authenticity token to return parameters (thanks Alexander Greim!)
 
