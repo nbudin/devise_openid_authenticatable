@@ -1,3 +1,6 @@
+== 1.1.5
+* More CSRF authenticity token fixes: for Rails 4, we need to just stop checking authenticity if we're returning from rack-openid.  Thanks to pierre-pretorius for the fix.
+
 == 1.1.4
 * Remove authenticity token from return parameters, and instead stop requiring it for successful authentication.  This is required to be compatible with Devise's recent security fixes.
 * Test suite is now fully passing on Devise 1.4 through 3.0
