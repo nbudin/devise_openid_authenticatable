@@ -1,3 +1,6 @@
+== 1.1.6
+* The last fix didn't load correctly; trying a new one that patches the verify_authenticity_token callback instead.
+
 == 1.1.5
 * More CSRF authenticity token fixes: for Rails 4, we need to just stop checking authenticity if we're returning from rack-openid.  Thanks to pierre-pretorius for the fix.
 
