@@ -1,5 +1,6 @@
 require 'devise'
 
+require 'devise_openid_authenticatable/config'
 require 'devise_openid_authenticatable/railtie'
 require 'devise_openid_authenticatable/schema'
 require 'devise_openid_authenticatable/strategy'
