@@ -79,7 +79,7 @@ class Devise::Strategies::OpenidAuthenticatable < Devise::Strategies::Authentica
 
     def build_resource
       if mapping.to.respond_to?(:build_from_identity_url)
-        mapping.to.build_from_identity_url(provider_response.identity_url)
+        mapping.to.build_from_identity_url(provider_response.identity_url,fields)
       end
     end
 
