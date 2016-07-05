@@ -1,3 +1,6 @@
+== 1.2.1
+* Avoid an unnecessary method call (thanks Sander Nieuwenhuizen!)
+
 == 1.2.0
 * Allow configuring a static identity_url for all users (thanks Sander Nieuwenhuizen!)
 
