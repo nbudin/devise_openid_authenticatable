@@ -91,7 +91,7 @@ class Devise::Strategies::OpenidAuthenticatable < Devise::Strategies::Authentica
     end
 
     def update_resource!(resource)
-      if fields && resource.respond_to?(:openid_fields=)
+      if resource.respond_to?(:openid_fields=) && fields
         resource.openid_fields = fields
       end
 
