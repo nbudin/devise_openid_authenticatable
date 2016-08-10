@@ -10,15 +10,10 @@ class Devise::Strategies::OpenidAuthenticatable < Devise::Strategies::Authentica
   def authenticate!
     logger.debug("Authenticating with OpenID for mapping #{mapping.to}")
 
-    if provider_response
+    if provider_response?
       handle_response!
-    else # Delegate authentication to Rack::OpenID by throwing a 401
-      opts = { :identifier => identity_url, :return_to => return_url, :trust_root => trust_root, :method => 'post' }
-
-      opts[:immediate] = true if scoped_params["immediate"]
-      opts[:optional] = mapping.to.openid_optional_fields if mapping.to.respond_to?(:openid_optional_fields)
-      opts[:required] = mapping.to.openid_required_fields if mapping.to.respond_to?(:openid_required_fields)
-      custom! [401, { Rack::OpenID::AUTHENTICATE_HEADER => Rack::OpenID.build_header(opts) }, "Sign in with OpenID"]
+    else
+      handle_missing_response!
     end
   end
 
@@ -53,6 +48,16 @@ class Devise::Strategies::OpenidAuthenticatable < Devise::Strategies::Authentica
       when :failure
         fail! "OpenID authentication failed"
       end
+    end
+
+    def handle_missing_response!
+      logger.debug("Delegate authentication to Rack::OpenID by throwing a 401")
+
+      opts = { identifier: identity_url, return_to: return_url, trust_root: trust_root, method: 'post' }
+      opts[:immediate] = true if scoped_params["immediate"]
+      opts[:optional]  = mapping.to.openid_optional_fields if mapping.to.respond_to?(:openid_optional_fields)
+      opts[:required]  = mapping.to.openid_required_fields if mapping.to.respond_to?(:openid_required_fields)
+      custom! [401, { Rack::OpenID::AUTHENTICATE_HEADER => Rack::OpenID.build_header(opts) }, "Sign in with OpenID"]
     end
 
   private
