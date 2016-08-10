@@ -1,3 +1,7 @@
+== next release
+* Code cleanups and additional debug logging (thanks Erik Ecoologic!)
+* Drop support for Ruby 1.9; Ruby 2.0 or greater is now required
+
 == 1.2.1
 * Avoid an unnecessary method call (thanks Sander Nieuwenhuizen!)
 
