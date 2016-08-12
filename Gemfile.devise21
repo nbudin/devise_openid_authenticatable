@@ -8,4 +8,5 @@ gem "rails", "~> 3.2.0"
 
 group :test do
   gem "rots", :git => "http://github.com/roman/rots.git"
+  gem 'test-unit' # Ruby related: https://github.com/rspec/rspec-rails/issues/1273
 end
