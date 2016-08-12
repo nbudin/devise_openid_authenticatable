@@ -67,7 +67,7 @@ class Devise::Strategies::OpenidAuthenticatable < Devise::Strategies::Authentica
     end
 
     def provider_response
-      env[Rack::OpenID::RESPONSE]
+      ENV[Rack::OpenID::RESPONSE]
     end
 
     def valid_mapping?
