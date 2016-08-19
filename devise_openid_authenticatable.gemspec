@@ -14,7 +14,9 @@ Gem::Specification.new do |gem|
   gem.name          = "devise_openid_authenticatable"
   gem.require_paths = ["lib"]
   gem.version       = DeviseOpenidAuthenticatable::VERSION
-  
+
+  gem.required_ruby_version = '>= 2.0'
+
   gem.add_dependency "rack-openid", ">= 1.2.0"
   gem.add_dependency "devise", ">= 1.3"
 

@@ -8,7 +8,8 @@ Scenario::Application.configure do
   config.cache_classes = true
 
   # Log error messages when you accidentally call methods on nil.
-  config.whiny_nils = true
+  # DEPRECATION WARNING: config.whiny_nils option is deprecated and no longer works.
+  # config.whiny_nils = true
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
@@ -30,6 +31,6 @@ Scenario::Application.configure do
   config.action_dispatch.show_exceptions = false
 
   config.active_support.deprecation = :stderr
-  
+
   config.eager_load = false
 end
