@@ -13,8 +13,9 @@ Webrat.configure do |config|
   config.open_error_files = false
 end
 
-RSpec.configure do |config| 
-  config.mock_with :mocha 
+RSpec.configure do |config|
+  config.mock_with :mocha
+  config.infer_spec_type_from_file_location!
 end
 
 # This is mostly copied in from bin/rots; they don't provide a single app class we could just reuse, unfortunately
@@ -33,7 +34,7 @@ ROTS_CONFIG
 rots_server_options = {
   :storage => File.join(File.dirname(__FILE__), 'scenario', 'tmp', 'rots')
 }
-rots_server = Rack::Builder.new do 
+rots_server = Rack::Builder.new do
   use Rack::Lint
   map ("/%s" % rots_config['identity']) do
     run Rots::IdentityPageApp.new(rots_config, rots_server_options)
