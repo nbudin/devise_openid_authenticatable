@@ -31,6 +31,7 @@ class Devise::Strategies::OpenidAuthenticatable < Devise::Strategies::Authentica
       case provider_response.status
       when :success
         resource = find_resource || build_resource || create_resource
+
         if resource && validate(resource)
           begin
             update_resource!(resource)
@@ -61,6 +62,12 @@ class Devise::Strategies::OpenidAuthenticatable < Devise::Strategies::Authentica
     end
 
   private
+
+    def success!(resource)
+      super.tap do
+        resource.remember_me = remember_me? if resource.respond_to?(:remember_me=)
+      end
+    end
 
     def provider_response?
       !!provider_response

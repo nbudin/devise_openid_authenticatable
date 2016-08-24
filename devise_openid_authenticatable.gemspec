@@ -26,4 +26,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "sqlite3-ruby"
   gem.add_development_dependency "sham_rack"
   gem.add_development_dependency "webrat"
+  gem.add_development_dependency 'roman-rots'
 end

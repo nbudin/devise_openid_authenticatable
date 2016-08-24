@@ -1,3 +1,5 @@
 Rails.application.config.secret_token = 'ea942c41850d502f2c8283e26bdc57829f471bb18224ddff0a192c4f32cdf6cb5aa0d82b3a7a7adbeb640c4b06f3aa1cd5f098162d8240f669b39d6b49680571'
 Rails.application.config.session_store :cookie_store, key: "_my_scenario"
-Scenario::Application.config.secret_key_base = 'ea942c41850d502f3c8283e26bdc57829f471bb18224ddff0a192c4f32cdf6cb5aa0d82b3a7a7adbeb640c4b06f3aa1cd5f098162d8240f669b39d6b49680574'
+if Scenario::Application.config.respond_to?(:secret_key_base=)
+  Scenario::Application.config.secret_key_base = '67ecc07dd52ce53da248745c6e601603534de2250c8b7add5c7f9a791c1b4684d808d28a35ac6b31a6b12932b461afbe6fda8ccc2232466ee68a9bd16bac06b0'
+end

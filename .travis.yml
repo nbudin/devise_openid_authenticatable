@@ -1,8 +1,18 @@
-rvm:
-  - 2.0.0
-gemfile:
-  - Gemfile.devise30
-  - Gemfile.devise21
-  - Gemfile.devise15
-  - Gemfile.devise13
-  - Gemfile.devise14
+matrix:
+  include:
+    - rvm:     2.3.1
+      gemfile: Gemfile.devise42
+    - rvm:     2.3.1
+      gemfile: Gemfile.devise35
+    - rvm:     2.3.1
+      gemfile: Gemfile.devise33
+    - rvm:     2.3.1
+      gemfile: Gemfile.devise30
+    - rvm:     2.1.10
+      gemfile: Gemfile.devise21
+    - rvm:     2.1.10
+      gemfile: Gemfile.devise15
+    - rvm:     2.1.10
+      gemfile: Gemfile.devise14
+    - rvm:     2.1.10
+      gemfile: Gemfile.devise13

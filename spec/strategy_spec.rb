@@ -39,11 +39,11 @@ describe Devise::Strategies::OpenidAuthenticatable do
     User.create! do |u|
       u.identity_url = "http://openid.example.org/myid"
     end
-    
+
     LegacyUser.create! do |u|
       u.identity_url = "http://openid.example.org/myid"
     end
-    
+
     DatabaseUser.create! do |u|
       u.email = "dbuser@example.com"
       u.password = "password"
@@ -104,18 +104,18 @@ describe Devise::Strategies::OpenidAuthenticatable do
       response.should redirect_to('http://openid.example.org/server')
     end
   end
-  
+
   describe "POST /users/sign_in (with rememberable)" do
     before do
       post '/users/sign_in', 'user' => { 'identity_url' => 'http://openid.example.org/myid', 'remember_me' => 1 }
     end
-    
+
     it 'should forward request to provider, with params preserved' do
       response.should be_redirect
       redirect_uri = URI.parse(response.header['Location'])
       redirect_uri.host.should == "openid.example.org"
       redirect_uri.path.should match(/^\/server/)
-      
+
       # Crack open the redirect URI and extract the return parameter from it, then parse it too
       req = Rack::Request.new(Rack::MockRequest.env_for(redirect_uri.to_s))
       return_req = Rack::Request.new(Rack::MockRequest.env_for(req.params['openid.return_to']))
@@ -163,11 +163,11 @@ describe Devise::Strategies::OpenidAuthenticatable do
     end
 
     it 'should update user-records with retrieved information' do
-      User.should have(1).record
+      expect(User.count).to eq 1
       User.first.email.should == 'dimitrij@example.com'
     end
   end
-  
+
   describe "POST /users/sign_in (from OpenID provider, success, rememberable)" do
 
     before do
@@ -182,9 +182,22 @@ describe Devise::Strategies::OpenidAuthenticatable do
     end
 
     it 'should update user-records with retrieved information and remember token' do
-      User.should have(1).record
+      expect(User.count).to eq 1
       User.first.email.should == 'dimitrij@example.com'
       User.first.remember_token.should_not be_nil
+    end
+  end
+
+  describe "POST /users/sign_in (from OpenID provider, success, NOT rememberable)" do
+    before do
+      stub_completion
+      post '/users/sign_in', openid_params.merge("_method"=>"post", "user" => { "remember_me" => 0 })
+    end
+
+    it 'should update user-records with retrieved information but not remember token' do
+      expect(User.count).to eq 1
+      User.first.email.should == 'dimitrij@example.com'
+      User.first.remember_token.should be_nil
     end
   end
 
@@ -203,26 +216,26 @@ describe Devise::Strategies::OpenidAuthenticatable do
     end
 
     it 'should auto-create user-records (if supported)' do
-      User.should have(2).records
+      User.count.should eq 2
     end
 
     it 'should update new user-records with retrieved information' do
       User.order(:id).last.email.should == 'dimitrij@example.com'
     end
   end
-  
+
   describe "POST /legacy_users/sign_in (from OpenID provider, success, new user)" do
 
     before do
       @previous_logger = Rails.logger
       @log_output = StringIO.new
       Rails.logger = Logger.new(@log_output)
-      
+
       @identity = 'http://openid.example.org/newid'
       stub_completion
       post '/legacy_users/sign_in', openid_params.merge("_method"=>"post")
     end
-    
+
     after do
       Rails.logger = @previous_logger
     end
@@ -234,32 +247,32 @@ describe Devise::Strategies::OpenidAuthenticatable do
     end
 
     it 'should auto-create user-records (if supported)' do
-      LegacyUser.should have(2).records
+      LegacyUser.count.should eq 2
     end
 
     it 'should update new user-records with retrieved information' do
       LegacyUser.order(:id).last.email.should == 'dimitrij@example.com'
     end
-    
+
     it 'should issue a deprecation warning' do
       @log_output.string.should =~ /DEPRECATION WARNING: create_from_identity_url/
     end
   end
 
   describe "POST /database_users/sign_in (using database authentication)" do
-    
+
     before do
       post '/database_users/sign_in', :database_user => { :email => "dbuser@example.com", :password => "password" }
     end
-    
+
     it 'should accept authentication with success' do
       response.should be_redirect
       response.should redirect_to('http://www.example.com/')
       flash[:notice].should match(/success/i)
     end
-    
+
   end
-  
+
   describe "POST /database_users/sign_in (using OpenID, begin_authentication)" do
     before do
       Rack::OpenID.any_instance.stubs(:begin_authentication).returns([302, {'Location' => 'http://openid.example.org/server'}, ['']])
@@ -271,7 +284,7 @@ describe Devise::Strategies::OpenidAuthenticatable do
       response.should redirect_to('http://openid.example.org/server')
     end
   end
-  
+
   describe "POST /database_users/sign_in (using OpenID, from provider, existing user)" do
     before do
       stub_completion
@@ -285,11 +298,11 @@ describe Devise::Strategies::OpenidAuthenticatable do
     end
 
     it 'should update user-records with retrieved information' do
-      DatabaseUser.should have(1).record
+      DatabaseUser.count.should eq 1
       DatabaseUser.first.email.should == 'dimitrij@example.com'
     end
   end
-  
+
   describe "POST /database_users/sign_in (using OpenID, from provider, existing email)" do
     before do
       DatabaseUser.delete_all
@@ -297,7 +310,7 @@ describe Devise::Strategies::OpenidAuthenticatable do
         u.email = "dimitrij@example.com"
         u.password = "password"
       end
-      
+
       stub_completion
       post '/database_users/sign_in', openid_params.merge("_method"=>"post")
     end
@@ -306,10 +319,10 @@ describe Devise::Strategies::OpenidAuthenticatable do
       response.should be_success
       response.should render_template("sessions/new")
       flash[:alert].should match(/email/i)
-      DatabaseUser.should have(1).record
+      DatabaseUser.count.should eq 1
     end
   end
-  
+
   describe "POST /database_users/sign_in (using OpenID, from provider, forgery attempt)" do
     before do
       DatabaseUser.delete_all
@@ -318,7 +331,7 @@ describe Devise::Strategies::OpenidAuthenticatable do
         u.password = "password"
         u.identity_url = "http://openid.example.org/different_id"
       end
-      
+
       stub_completion
       post '/database_users/sign_in', openid_params.merge("_method"=>"post")
     end
