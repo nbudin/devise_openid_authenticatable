@@ -1,5 +1,6 @@
-== next release
+== 1.3.0
 * Code cleanups and additional debug logging (thanks Erik Ecoologic!)
+* Support Rails 5 and Devise 3.4, 3.5 and 4.x (thanks again Erik Ecoologic!)
 * Drop support for Ruby 1.9; Ruby 2.0 or greater is now required
 
 == 1.2.1
