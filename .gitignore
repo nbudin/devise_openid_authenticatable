@@ -4,3 +4,4 @@ Gemfile.lock
 .bundle
 spec/scenario/db/*.sqlite3
 spec/scenario/tmp/*
+vendor/bundle

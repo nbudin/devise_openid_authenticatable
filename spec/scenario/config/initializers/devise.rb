@@ -1,0 +1,3 @@
+if Devise.respond_to?(:secret_key=)
+  Devise.secret_key = '9d516d28ce51f3647b770b7ce5b3e39fb171670dd68be0d0746cf33410050dceb033829316ea2b13ea774072945988f971488baf9647a6ec72959c1596487548'
+end
