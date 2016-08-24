@@ -6,8 +6,8 @@ ruby '2.3.1'
 gemspec
 
 group :test do
-  gem 'rails', '~> 5.0.0'
-  gem 'devise', '~> 4.2.0'
+  gem 'rails', '~> 4.0.13'
+  gem 'devise', '~> 3.5.10' # Latest supporting Rails 4
   gem 'test-unit' # Ruby > 2.1, see github.com/rspec/rspec-rails/issues/1273
-  gem 'rails-controller-testing'
 end
+

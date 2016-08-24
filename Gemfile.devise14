@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 
+ruby '2.1.10'
+
 # Specify your gem's dependencies in devise_openid_authenticatable.gemspec
 gemspec
 
-gem "rails", "~> 3.0.0"
-gem "devise", "~> 1.4.0"
-
 group :test do
-  gem "rots", :git => "http://github.com/roman/rots.git"
+  gem "rails", "~> 3.0.0"
+  gem "devise", "~> 1.4.0"
 end
