@@ -188,6 +188,19 @@ describe Devise::Strategies::OpenidAuthenticatable do
     end
   end
 
+  describe "POST /users/sign_in (from OpenID provider, success, NOT rememberable)" do
+    before do
+      stub_completion
+      post '/users/sign_in', openid_params.merge("_method"=>"post", "user" => { "remember_me" => 0 })
+    end
+
+    it 'should update user-records with retrieved information but not remember token' do
+      expect(User.count).to eq 1
+      User.first.email.should == 'dimitrij@example.com'
+      User.first.remember_token.should be_nil
+    end
+  end
+
   describe "POST /users/sign_in (from OpenID provider, success, new user)" do
 
     before do
