@@ -12,7 +12,7 @@ module DeviseOpenidAuthenticatable
     end
 
     def openid_provider_response?
-      !!env[Rack::OpenID::RESPONSE]
+      !!request.env[Rack::OpenID::RESPONSE]
     end
   end
 end
